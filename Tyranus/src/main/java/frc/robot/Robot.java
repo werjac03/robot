@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    // RobotContainer.swerveDrive.resetEncoders();
+    RobotContainer.swerveDrive.resetEncoders();
   }
 
   @Override
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    // RobotContainer.swerveDrive.resetEncoders();
+    RobotContainer.swerveDrive.resetEncoders();
   }
 
   @Override
