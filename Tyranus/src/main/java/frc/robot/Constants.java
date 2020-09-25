@@ -120,6 +120,7 @@ public final class Constants {
   //turret constants
   public static final class Turret {
     public static final int motor = 9;
+    public static final double TurretConversion = 140.625 / 360;
   }
   // intake constants
   public static final class Intake {

@@ -52,6 +52,7 @@ public class Turret extends SubsystemBase {
     turretMotor.burnFlash();
 
     turretEncoder = turretMotor.getEncoder();
+    turretEncoder.setPositionConversionFactor(Turret.TurretConversion);
     turretEncoder.setPosition(0);
 
     m_turretPIDController = turretMotor.getPIDController();
@@ -93,6 +94,10 @@ public class Turret extends SubsystemBase {
 
   public void stop() {
     turretMotor.set(0);
+  }
+  public void gyroLock() {
+    double heading = SwerveDrive.getHeading();
+    setPosition(heading);
   }
 
   public void spin(final double left, final double right) {
