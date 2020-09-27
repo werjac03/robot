@@ -46,7 +46,7 @@ public class RobotContainer {
         private final Intake intake = new Intake();
         private final Conveyor zoom = new Conveyor();
         public final static Shooter shooter = new Shooter();
-        private final Climb climb = new Climb();
+        //private final Climb climb= new Climb();
         private final Turret spinny = new Turret();
 
         // The driver's controller
@@ -95,7 +95,7 @@ public class RobotContainer {
                                 m_operatorController.getRawAxis(3)), intake));
 
                 spinny.setDefaultCommand(new RunCommand(
-                                () -> spinny.gyroLock());
+                                () -> spinny.gyroLock()));
         }
 
         /**
@@ -122,8 +122,7 @@ public class RobotContainer {
                 new JoystickButton(m_operatorController, 2).whileHeld(new InstantCommand(shooter::full53ND, shooter))
                                 .whenReleased(shooter::stopShooter, shooter);
                 new JoystickButton(m_driverController, 5)
-                                .whenPressed(new InstantCommand(swerveDrive.zeroHeading())
-                                .whenReleased();
+                                .whenPressed(new InstantCommand(swerveDrive.zeroHeading(), swerveDrive));
         }
 
         /**

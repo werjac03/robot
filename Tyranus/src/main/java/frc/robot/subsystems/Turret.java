@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.SwerveDriveConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,7 +34,7 @@ public class Turret extends SubsystemBase {
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, setPoint, rotations;
   private CANDigitalInput m_reverseLimit;
   private DigitalInput limitSwitch;
-
+  public SwerveDrive swerve;
   /**
    * Creates a new Turret.
    */
@@ -52,7 +54,7 @@ public class Turret extends SubsystemBase {
     turretMotor.burnFlash();
 
     turretEncoder = turretMotor.getEncoder();
-    turretEncoder.setPositionConversionFactor(Turret.TurretConversion);
+    turretEncoder.setPositionConversionFactor(Constants.Turret.TurretConversion);
     turretEncoder.setPosition(180);
 
     m_turretPIDController = turretMotor.getPIDController();
@@ -96,7 +98,7 @@ public class Turret extends SubsystemBase {
     turretMotor.set(0);
   }
   public void gyroLock() {
-    double heading = SwerveDrive.getHeading() + SwerveDriveConstants.angleOffset;
+    double heading = swerve.getHeading() + SwerveDriveConstants.angleOffset;
     setPosition(heading);
   }
 

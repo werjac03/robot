@@ -40,10 +40,10 @@ public final class Constants {
     public static final int frontRightSteer = 6;
     public static final int backRightSteer = 8;
 
-    public static final int FL_enconder = 0;
-    public static final int FR_enconder = 1;
-    public static final int BL_enconder = 2;
-    public static final int BR_enconder = 3;
+    public static final int FL_encoder = 0;
+    public static final int FR_encoder = 1;
+    public static final int BL_encoder = 2;
+    public static final int BR_encoder = 3;
 
     public static final double angleOffset = 90;
 

@@ -34,7 +34,7 @@ public class SwerveDrive extends SubsystemBase {
   private final SwerveModule m_rearLeft =
       new SwerveModule(SwerveDriveConstants.backLeftDrive,
                        SwerveDriveConstants.backLeftSteer,
-                       SwerveDriveConstants.RL_encoder,
+                       SwerveDriveConstants.BL_encoder,
                        SwerveDriveConstants.backLeftSteerEncoderReversed);
 
 
@@ -47,7 +47,7 @@ public class SwerveDrive extends SubsystemBase {
   private final SwerveModule m_rearRight =
       new SwerveModule(SwerveDriveConstants.backRightDrive,
                        SwerveDriveConstants.backRightSteer,
-                       SwerveDriveEncoder.BR_encoder,
+                       SwerveDriveConstants.BR_encoder,
                        SwerveDriveConstants.backRightSteerEncoderReversed);
 
   // The gyro sensor
@@ -83,9 +83,9 @@ public class SwerveDrive extends SubsystemBase {
         m_frontRight.getState(),
         m_rearRight.getState());
         SmartDashboard.putNumber("FLSteering", m_frontLeft.m_absoluteEncoder.getAngle());
-        SmartDashboard.putNumber("FRSteering", m_frontRight.m_absoluteEncoder.Angle());
-        SmartDashboard.putNumber("BLSteering", m_rearLeft.m_absoluteEncoder.Angle());
-        SmartDashboard.putNumber("BRSteering", m_rearRight.m_absoluteEncoder.Angle());
+        SmartDashboard.putNumber("FRSteering", m_frontRight.m_absoluteEncoder.getAngle());
+        SmartDashboard.putNumber("BLSteering", m_rearLeft.m_absoluteEncoder.getAngle());
+        SmartDashboard.putNumber("BRSteering", m_rearRight.m_absoluteEncoder.getAngle());
         SmartDashboard.putNumber("FLneo", m_frontLeft.getState().angle.getRadians());
         SmartDashboard.putNumber("FRneo", m_frontRight.getState().angle.getRadians());
         SmartDashboard.putNumber("BLneo", m_rearLeft.getState().angle.getRadians());
@@ -110,7 +110,7 @@ public class SwerveDrive extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
-  public void resetOdometry(Pose2d pose) {
+  public void resetOdometry(final Pose2d pose) {
     m_odometry.resetPosition(pose, getAngle());
   }
 
@@ -120,18 +120,16 @@ public class SwerveDrive extends SubsystemBase {
    * @param xSpeed        Speed of the robot in the x direction (forward).
    * @param ySpeed        Speed of the robot in the y direction (sideways).
    * @param rot           Angular rate of the robot.
-   * @param fieldRelative Whether the provided x and y speeds are relative to the field.
+   * @param fieldRelative Whether the provided x and y speeds are relative to the
+   *                      field.
    */
   @SuppressWarnings("ParameterName")
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+  public void drive(final double xSpeed, final double ySpeed, final double rot, final boolean fieldRelative) {
 
-    var swerveModuleStates = SwerveDriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-            xSpeed, ySpeed, rot, getAngle())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot)
-    );
-    SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates,
-                                               SwerveDriveConstants.kMaxSpeedMetersPerSecond);
+    final var swerveModuleStates = SwerveDriveConstants.kDriveKinematics
+        .toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getAngle())
+            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+    SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, SwerveDriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -143,7 +141,7 @@ public class SwerveDrive extends SubsystemBase {
    *
    * @param desiredStates The desired SwerveModule states.
    */
-  public void setModuleStates(SwerveModuleState[] desiredStates) {
+  public void setModuleStates(final SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates,
                                                SwerveDriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(desiredStates[0]);
@@ -175,7 +173,7 @@ public class SwerveDrive extends SubsystemBase {
    * @return the robot's heading in degrees, from 180 to 180
    */
   public double getHeading() {
-    return (naxX.getAngle()%360 + 360)%360);
+    return Math.IEEEremainder(navX.getAngle(), 360) * (SwerveDriveConstants.kGyroReversed ? -1.0 : 1.0);
   }
 
   /**
