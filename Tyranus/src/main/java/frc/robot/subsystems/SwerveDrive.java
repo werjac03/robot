@@ -70,7 +70,7 @@ public class SwerveDrive extends SubsystemBase {
    */
   public Rotation2d getAngle() {
     // Negating the angle because WPILib gyros are CW positive.
-    return Rotation2d.fromDegrees((navX.getAngle()+90) * (SwerveDriveConstants.kGyroReversed ? 1.0 : -1.0));
+    return Rotation2d.fromDegrees((navX.getAngle()+SwerveDriveConstants.angleOffset) * (SwerveDriveConstants.kGyroReversed ? 1.0 : -1.0));
   }
 
   @Override
@@ -175,7 +175,7 @@ public class SwerveDrive extends SubsystemBase {
    * @return the robot's heading in degrees, from 180 to 180
    */
   public double getHeading() {
-    return Math.IEEEremainder(navX.getAngle(), 360) * (SwerveDriveConstants.kGyroReversed ? -1.0 : 1.0);
+    return (naxX.getAngle()%360 + 360)%360);
   }
 
   /**

@@ -45,6 +45,8 @@ public final class Constants {
     public static final int BL_enconder = 2;
     public static final int BR_enconder = 3;
 
+    public static final double angleOffset = 90;
+
     // encoder's aren't reversed
     public static final boolean frontLeftSteerEncoderReversed = false;
     public static final boolean backLeftSteerEncoderReversed = false;
