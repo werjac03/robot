@@ -122,7 +122,7 @@ public class RobotContainer {
                 new JoystickButton(m_operatorController, 2).whileHeld(new InstantCommand(shooter::full53ND, shooter))
                                 .whenReleased(shooter::stopShooter, shooter);
                 new JoystickButton(m_driverController, 5)
-                                .whenPressed(new InstantCommand(swerveDrive.zeroHeading(), swerveDrive));
+                                .whenPressed(new InstantCommand(swerveDrive::zeroHeading, swerveDrive));
         }
 
         /**
